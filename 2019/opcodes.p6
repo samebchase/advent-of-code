@@ -1,22 +1,24 @@
-my %instruction-idxs = "opcode" => 0,
-                       "input-a-idx" => 1,
-                       "input-b-idx" => 2,
-                       "result-idx" => 3;
+sub execute($opcode, $a-idx, $b-idx) {
+    case $opcode of {
+        1 => $a-idx + $b-idx
+        2 => $a-idx * $b-idx
+        99 => "halt"
+    }
+}
 
-my %opcodes = "1" => "add",
-              "2" => "multiply";
 
-sub read-and-print-file ($filename) {
+sub read-and-print-file($filename) {
     my $contents = slurp $filename;
 
     my @program-state = split(',', $contents);
-    
+
     my @instructions = @program-state.batch(4);
 
     for @instructions -> $opcode, $a-idx = Nil, $b-idx = Nil, $result-idx = Nil {
         
-        
-        
+        my $result = execute($opcode, $a-idx, $b-idx);
+        @program-state[$result-idx] = $result;        
+    
     }
 
     say @program-state;

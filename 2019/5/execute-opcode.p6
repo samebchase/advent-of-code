@@ -13,9 +13,12 @@ sub read-file($filename) {
 
 
 sub read-and-print-file($filename) {
-    
     my @program-state = read-file($filename).map: *.Int;
+    @program-state;
+}
 
+
+sub run-program (@program-state) {
     my $num-instructions = @program-state.elems;
     
     my @instruction-indices = 0,4 ... $num-instructions - $num-instructions % 4;
@@ -33,7 +36,8 @@ sub read-and-print-file($filename) {
                                               @program-state[$b-idx]);
     }
 
-    say @program-state;
+    @program-state;
 }
 
-read-and-print-file("input");
+
+#say run-program(read-and-print-file("../2/1.input"));
